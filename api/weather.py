@@ -41,6 +41,7 @@ class handler(BaseHTTPRequestHandler):
             message = get_weather_temp()
 
         else:
-            message = f"please enter in a city at the end of the url, EXAMPLE: ?city=seattle"
+            message = f"please enter in a city at the end of the url, EXAMPLE: ?city=seattle this will display the " \
+                      f"avg temperatures for the previous 5 years from the current month "
         self.wfile.write(message.encode())
         return
