@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from http.server import BaseHTTPRequestHandler
 from urllib import parse
+from datetime import datetime
 
 
 class handler(BaseHTTPRequestHandler):
@@ -11,17 +12,33 @@ class handler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header('Content-type', 'text/plain')
         self.end_headers()
+        # get current date to parse into the urls
+        date_now = datetime.now()
+        year = date_now.year
+        month = date_now.month
+        day = date_now.day
+        print(f'--------CURRENT {date_now.year} DATE--------')
+
+        # loop through 10 years of dates starting from current date.
+
+        # Weather data function
+        def get_weather_temp(url):
+            page = requests.get(url)
+            soup = BeautifulSoup(page.content, 'html.parser')
+            table = soup.findAll('div')
+            for div in table:
+                row = div.find('tr')
+                print(row)
 
         if "airport" in dic:
-            # message = "Hello, " + dic["airport"] + "!"
-            message = f'https://www.wunderground.com/history/daily/{dic["airport"]}/date/2022-7-17'
+            # parse the airport into the url
+            message = f'https://www.wunderground.com/history/daily/{dic["airport"]}/date/{year}-{month}-{day}'
+            get_weather_temp(message)
+
         else:
-            message = "Hello, stranger!"
+            message = f"please enter in airport at the end of the url, EXAMPLE: ?airport=SEA"
         self.wfile.write(message.encode())
         return
-
-        # weather_url = 'https://www.wunderground.com/history/daily/airport/date/2022-7-17'
-
         # def get_citations_needed_count(url):
         #     page = requests.get(url)
         #     soup = BeautifulSoup(page.content, 'html.parser')
@@ -41,5 +58,3 @@ class handler(BaseHTTPRequestHandler):
         #
         # get_citations_needed_count(corgi_url)
         # get_citations_needed_report(corgi_url)
-
-
