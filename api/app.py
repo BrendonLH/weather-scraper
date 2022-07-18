@@ -12,6 +12,7 @@ class handler(BaseHTTPRequestHandler):
         if "name" in dic:
             message = "Hello, " + dic["name"] + "!"
         else:
-            message = "Hello, stranger!"
+            message = "replace app with weather?city={cityname} with no brackets. this will display the avg " \
+                      "temperatures for you're selected cuty for the past 5 years starting from the current year "
         self.wfile.write(message.encode())
         return
